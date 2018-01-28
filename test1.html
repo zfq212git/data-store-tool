@@ -32,7 +32,7 @@
  
  <td>密 码 是：</td>  
  <td><output type="text" name="output_pass" value="" size="20" maxlength="20" onfocus="if (this.value=='')  this.value='';" /></td>
-
+ 
  <td>新 密 码：</td>  
  <td><input type="password" name="new_pass" value="设定密码" size="20" maxlength="20" onfocus="if (this.value=='设定密码')  this.value='';" /></td>
  </tr>  
@@ -45,16 +45,18 @@
  </tr>
 
  <tr>  
-  <td><input type="button" name="save" value="保存" onClick="return GetData()"/></td>  
+  <td><input type="button" name="save" value="保存" onClick="return SaveData()"/></td>  
   <td>--------------------------------------------  </td>
-  <td><input type="button" name="find" value="查找" onClick="return validateLogin()"/></td> 
+  <td><input type="button" name="find" value="查找" onClick="return FindData()"/></td> 
   <td>--------------------------------------------  </td>
-  <td><input type="button" name="update" value="更新" onClick="return validateLogin()"/></td> 
+  <td><input type="button" name="update" value="更新" onClick="return UpdateData()"/></td> 
  </tr>  
 </table>  
 
 
 <div id="res">to be changed .......</div>
+<div id="returned_pass">returned pass .......</div>
+
 
 
 </fieldset>  
@@ -86,27 +88,73 @@
    }   
 
 
-   function GetData(){
+   function SaveData(){
+        var a1 = document.getElementsByName("desp_for_save");
+        var d1 = a1[0].value;
+        var a2 = document.getElementsByName("input_pass");
+        var d2 = a2[0].value;
+        //FormData也可以转送这类数据，而且更干净。但是在服务器那里得调整下对应的解析方式。
+        //var d12 = new FormData();
+        //d12.append("desp_for_save",d1);
+        //d12.append("input_pass",d2);
+        var d12 = "request_type="+"save"+"&desp_for_save="+d1+"&input_pass="+d2;
 
-    var a1 = document.getElementsByName("desp_for_save");
-    var d1 = a1[0].value;
-    var a2 = document.getElementsByName("input_pass");
-    var d2 = a2[0].value;
-    var d12 = "desp_for_save="+d1+"&input_pass="+d2;
-    var xhr=new XMLHttpRequest();
-
-    xhr.onreadystatechange=function(){
-        if(xhr.readyState==4){    //服务器反应完美结束
-            if(xhr.status==200){  //一切正常
-                document.getElementById("res").innerHTML=xhr.responseText;  //改变部分网页，但不重载或重定向。
+        var xhr=new XMLHttpRequest();
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4){    //服务器反应完美结束
+                if(xhr.status==200){  //一切正常
+                    document.getElementById("res").innerHTML=xhr.responseText;  //改变部分网页，但不重载或重定向。
+                }
             }
         }
+        //open 和 send必须在上面的代码后面，以确保ajax的onreadystatechange先开始工作
+        xhr.open("POST","http://127.0.0.1:8080",true);   
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded",'X-Requested-With', 'XMLHttpRequest');            
+        xhr.send(d12);
     }
-    //open 和 send必须在上面的代码后面，以确保ajax的onreadystatechange先开始工作
-    xhr.open("POST","http://127.0.0.1:8080",true);   
-    xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded",'X-Requested-With', 'XMLHttpRequest');            
-    xhr.send(d12);
+
+
+    function FindData(){
+        var a1 = document.getElementsByName("desp_for_find");
+        var d1 = a1[0].value;
+        var d12 = "request_type="+"find"+"&desp_for_find="+d1;
+
+        var xhr=new XMLHttpRequest();
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4){    //服务器反应完美结束
+                if(xhr.status==200){  //一切正常
+                    document.getElementById("returned_pass").innerHTML=xhr.responseText;  //改变部分网页，但不重载或重定向。
+                }
+            }
+        }
+        //open 和 send必须在上面的代码后面，以确保ajax的onreadystatechange先开始工作
+        xhr.open("POST","http://127.0.0.1:8080",true);   
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded",'X-Requested-With', 'XMLHttpRequest');            
+        xhr.send(d12);
     }
+
+    function UpdateData(){
+        var a1 = document.getElementsByName("desp_for_update");
+        var d1 = a1[0].value;
+        var a2 = document.getElementsByName("new_pass");
+        var d2 = a2[0].value;
+        var d12 = "request_type="+"update"+"&desp_for_update="+d1+"&new_pass="+d2;
+
+        var xhr=new XMLHttpRequest();
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4){    //服务器反应完美结束
+                if(xhr.status==200){  //一切正常
+                    document.getElementById("res").innerHTML=xhr.responseText;  //改变部分网页，但不重载或重定向。
+                }
+            }
+        }
+        //open 和 send必须在上面的代码后面，以确保ajax的onreadystatechange先开始工作
+        xhr.open("POST","http://127.0.0.1:8080",true);   
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded",'X-Requested-With', 'XMLHttpRequest');            
+        xhr.send(d12);
+    }
+
+
 
   </script>  
 </body>  
