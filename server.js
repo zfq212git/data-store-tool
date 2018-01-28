@@ -19,28 +19,61 @@ function handle_incoming_request(req, res) {
     req.on('end', () => {
         if (req.method.toLowerCase() == 'post') {
             var POST_data = qs.parse(body);
-            var name = POST_data.desp_for_save
-            var age = POST_data.input_pass
-            db.insertData(name, age, function(result0){
-                res.writeHead(200,{"Content-Type":"text/plain", "Access-Control-Allow-Headers":"x-requested-with","Access-Control-Allow-Origin":"*"});
+            var request_type = POST_data.request_type;
+            var name;
+            var age;
+            var result0;
 
-                if (result0 == 1){
-                    res.write("记录成功")
-                }
-                else {
-                    res.write("记录数据库失败")
-                }
-                
-                res.end();
-            });
-            console.log(name);
-            console.log(age);
+            if (request_type == "save") {
+                 name = POST_data.desp_for_save;
+                 age = POST_data.input_pass;
+                 db.insertData(name, age, function(result0){
+                    res.writeHead(200,{"Content-Type":"text/plain", "Access-Control-Allow-Headers":"x-requested-with","Access-Control-Allow-Origin":"*"});
+
+                    if (result0 == 1){
+                        res.write("记录成功")
+                    }
+                    else {
+                        res.write("记录数据库失败")
+                    }
+                    
+                    res.end();
+                });
+            };
+
+            if (request_type == "find") {
+                name = POST_data.desp_for_find;
+                var returned_pass;
+                db.findData(name, function(result0,returned_pass){
+                   res.writeHead(200,{"Content-Type":"text/plain", "Access-Control-Allow-Headers":"x-requested-with","Access-Control-Allow-Origin":"*"});
+                   res.write(returned_pass);
+                   res.end();
+                });
+            };
+        
+
+
+            if (request_type == "update") {
+                name = POST_data.desp_for_update;
+                age = POST_data.new_pass;
+                db.updateData(name, age, function(result0){
+                    res.writeHead(200,{"Content-Type":"text/plain", "Access-Control-Allow-Headers":"x-requested-with","Access-Control-Allow-Origin":"*"});
+
+                    if (result0 == 1){
+                        res.write("更新成功！")
+                    }
+                    else {
+                        res.write("记录数据库失败")
+                    }
+                    
+                    res.end();
+                });
+            };
         }
        
     });
+
 }
-
-
 
 
 db.init( (err, results) => {
