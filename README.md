@@ -31,7 +31,7 @@ Below notes are specifically for deploy the code to AWS
 
     (1) when following the steps to build up the web app in AWS, explicitly choose which region you want to use.  AWS seems to have a "AWS standard region" as default but it actually did not work.
     
-    (2) if ngnix is chosed (it is defaultly chosen), be sure in your server.js, add "process.env.PORT" as option for listening channel.  So the code may look like "process.env.PORT || 8080", otherwise you would have trouble, as most of us when debugging locally we only choose one number like 8080.  Also, in my test1.html, I had to remove 8080 and only kept the end point address to ensure the calling succeed.
+    (2) if ngnix is chosed (it is defaultly chosen), be sure in your server.js, add "process.env.PORT" as option for listening channel.  So the code may look like "process.env.PORT || 8080", otherwise you would have trouble, as most of us when debugging locally we only choose one number like 8080.  Also, in my test1.html, I had to remove 8080 and only kept the end point address to ensure the calling succeed.  (https://segmentfault.com/q/1010000009272717)
     
     (3) When necessary, go to check the inbound/outbound setting in security group (which exist in both EC2 and database (if used)).  It may cause some connection in some cases.
     
