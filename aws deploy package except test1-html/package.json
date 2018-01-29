@@ -1,0 +1,11 @@
+{
+  "name": "Data-storing-tool",
+  "description": "storing data secretely",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "async": "2.x",
+    "mysql": "2.x",
+    "jquery": "3.x"
+  }
+}
