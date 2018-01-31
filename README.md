@@ -46,4 +46,5 @@ Below notes are specifically for deploy the code to AWS
 To-do:
 
 (1) the AWS code (in that foler) has not been updated to the latest versions yet.
-(2) "Code Key" should be kept local;
+
+(2) "Code Key" should be input by the user on spot;  In this way, the test1.html can be put on cloud too.
