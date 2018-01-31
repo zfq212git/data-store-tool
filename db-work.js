@@ -121,4 +121,47 @@ exports.updateData = function (desp, dataItem, callback) {
 
 
 
+exports.selectAll = function (callback) {
+    
+    async.waterfall([
+        function (cb) {
+            dbpool.query(
+                "SELECT * FROM datalist1",function(err, results) {
+                if (err) {
+                    // 普通出错
+                    callback(0, "got a error!");
+                    if (err.number == 1062) {
+                        console.log("未知error");
+                    } else {
+                        console.log('运行出错：' + err.message);
+                    }
+                } else if (results) {
+                    // 正常
+                    //var list0="";
+
+                    //为了在网页中用下拉框显示全表内容，下面做了些innerhtml的处理
+                    var list0="<select id='callInfoTitleID' name='callInfoTitleID' "  
+                    +"multiple size='5' style='height:100px;width:100px;' >";
+                    var length = results.length;
+                    for (var i=0; i<length; i++){
+                        var d1 = results[i];
+                        var desp = d1['name'];
+                        var code = d1['dataitem'];
+                        var decode = jiajiemi.jiemi(code,desp);
+                        //list0+= desp+"   "+decode+"<br>";
+                        list0+= "<option value='abc'>"+desp+"   "+decode+"</option>"+";"+"   ";
+                    }
+                    list0+="</select>";
+              
+                    console.log("取表正常");
+                    callback(1,list0);
+                } else {
+                    console.log('未知运行出错');
+                }
+            });   
+            cb(null);
+        }
+    ]);
+};
+
 
