@@ -40,3 +40,10 @@ Below notes are specifically for deploy the code to AWS
     (5) I use mysql as the database for this app.  One tricky thing is that I need to remove the :3306 from the setting for "host" parameter for database connection, to make it work.  This is different from my local debugging, when the 3306 needs to be explicitly set.  I found this trick from the aws log that always has database error reported as :3306 :3306, so I thought perhaps aws-mysql defaultly set that and I should not set it in my code again.  It worked !
     
     (6) mysql instance was set up to run by AWS.  I needed to create the database and table and schema for use.  This could be done by either command line window or mysql workbench tool.  Or done by code but it would require lots of extra work that does not belong to the scope of my learning from this project.
+=======================
+
+
+To-do:
+
+(1) the AWS code (in that foler) has not been updated to the latest versions yet.
+(2) "Code Key" should be kept local;
