@@ -50,12 +50,14 @@
   <td><input type="button" name="find" value="查找" onClick="return FindData()"/></td> 
   <td>--------------------------------------------  </td>
   <td><input type="button" name="update" value="更新" onClick="return UpdateData()"/></td> 
+  <td><input type="button" name="selectAll" value="全表" onClick="return SelectAll()"/></td> 
  </tr>  
 </table>  
 
 
 <div id="res">to be changed .......</div>
 <div id="returned_pass">returned pass .......</div>
+<div id="Atable">table table .....</div>
 
 
 
@@ -145,6 +147,24 @@
             if(xhr.readyState==4){    //服务器反应完美结束
                 if(xhr.status==200){  //一切正常
                     document.getElementById("res").innerHTML=xhr.responseText;  //改变部分网页，但不重载或重定向。
+                }
+            }
+        }
+        //open 和 send必须在上面的代码后面，以确保ajax的onreadystatechange先开始工作
+        xhr.open("POST","http://127.0.0.1:8080",true);   
+        xhr.setRequestHeader("Content-Type","application/x-www-form-urlencoded",'X-Requested-With', 'XMLHttpRequest');            
+        xhr.send(d12);
+    }
+
+
+    function SelectAll(){
+        var d12 = "request_type="+"selectAll";
+
+        var xhr=new XMLHttpRequest();
+        xhr.onreadystatechange=function(){
+            if(xhr.readyState==4){    //服务器反应完美结束
+                if(xhr.status==200){  //一切正常
+                    document.getElementById("Atable").innerHTML=xhr.responseText;  //改变部分网页，但不重载或重定向。  //动态生成个下拉框
                 }
             }
         }
