@@ -69,6 +69,25 @@ function handle_incoming_request(req, res) {
                     res.end();
                 });
             };
+
+
+            if (request_type == "selectAll") {
+                var returned_list;
+                db.selectAll(function(result0,returned_list){
+                    res.writeHead(200,{"Content-Type":"text/plain", "Access-Control-Allow-Headers":"x-requested-with","Access-Control-Allow-Origin":"*"});
+
+                    if (result0 == 1){
+                        res.write(returned_list);
+                    }
+                    else {
+                        res.write("拿表失败");
+                    }
+                    
+                    res.end();
+                });
+            };
+
+
         }
        
     });
